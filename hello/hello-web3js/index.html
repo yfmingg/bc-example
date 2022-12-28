@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+permalink: web3-html
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+
+        <h1>Info Contract</h1>
+
+        <h2 id="info"></h2>
+
+        <label for="name" class="col-lg-2 control-label">Name</label>
+        <input id="name" type="text">
+
+        <label for="name" class="col-lg-2 control-label">Age</label>
+        <input id="age" type="text">
+
+        <button id="button">Update Info</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script>
+        // set a provider
+        const web3 = new Web3(Web3.givenProvider || "http://localhost:7545");
+
+        // abi json
+        const myAbi = [
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "getInfo",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string"
+                    },
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_fName",
+                        "type": "string"
+                    },
+                    {
+                        "name": "_age",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "setInfo",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            }
+        ];
+
+        const myContractAddress = "0xc694836ff32a421De673b4A2fA4184728d32e470";
+        const myAccount = "0xc038c9C7C61820f111460E7b637992fB283d21AA";
+
+        // create a new contract object, providing the ABI and address
+        const myContract = new web3.eth.Contract(myAbi, myContractAddress);
+
+        // using contract.methods to get value
+        myContract.methods.getInfo().call({from: myAccount}, function(error, result){
+            console.log(result)
+            $("#name").val(result[0]);
+            $("#age").val(result[1]);
+        });
+
+        $("#button").click(function() {
+            var name = $("#name").val();
+            var age = $("#age").val();
+            if (name == null || age == null) {
+                alert("姓名或年龄不能为空");
+                return;
+            }
+            
+            myContract.methods.setInfo(name, age).send({from: myAccount})
+            .then(function(receipt){
+                console.log(receipt);
+                alert("更新成功")
+            });
+            
+            myContract.methods.getInfo().call({from: myAccount}, function(error, result){
+                console.log(result)
+                $("#name").val(result[0]);
+                $("#age").val(result[1]);
+            });
+        });
+    </script>
+    
+
+</body>
+</html>
