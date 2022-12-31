@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test-contract</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+
+<body>
+    <button class="enableEthereumButton btn">Enable Ethereum</button>
+    <button class="getValue btn">contract-call-getValue</button>
+    <button class="setValue btn">contract-send-setValue</button>
+    <button class="sendTransaction btn">sendTransaction-setValue</button>
+
+    <script>
+        // The Contract interface
+        let abi = [
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "getValue",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "value",
+                        "type": "string"
+                    }
+                ],
+                "name": "setValue",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "name": "value",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "name": "author",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "name": "oldValue",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "name": "newValue",
+                        "type": "string"
+                    }
+                ],
+                "name": "ValueChanged",
+                "type": "event"
+            }
+        ];
+
+        const ethereumButton = document.querySelector('.enableEthereumButton');
+        const getValueButton = document.querySelector('.getValue');
+        const setValueButton = document.querySelector('.setValue');
+        const sendTransaction = document.querySelector(".sendTransaction");
+
+        let accounts = [];
+
+        ethereumButton.addEventListener('click', () => {
+            getAccount();
+        });
+
+        async function getAccount() {
+            accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+        }
+
+        var web3 = new Web3(Web3.givenProvider);
+        console.log("web3: ", web3);
+        console.log("givenProvider: ", web3.givenProvider);
+        console.log("providers: ", web3.providers);
+        console.log("currentProvider: ", web3.currentProvider);
+        console.log("---------------");
+
+        // https://goerli.etherscan.io/tx/0x4087e73a030628da38ee74e52f11de14a36f45a7e0d154e0990d471cdb09ae9e
+        let contractAddress = "0xea99dd9873ea70c10e31fab111450a6d7e866a33";
+        var myContract = new web3.eth.Contract(abi, contractAddress);
+
+        getValueButton.addEventListener('click', () => {
+            myContract.methods.getValue().call().then(result => {
+                console.log(result)
+            });
+        })
+
+        setValueButton.addEventListener('click', () => {
+            myContract.methods.setValue("a").send({ from: accounts[0] })
+                .then(function (receipt) {
+                    console.log("receipt: ", receipt);
+                });
+        })
+
+        sendTransaction.addEventListener('click', () => {
+            ethereum.request({
+                method: 'eth_sendTransaction',
+                params: [
+                    {
+                        from: accounts[0],
+                        to: contractAddress,
+                        data: myContract.methods.setValue("abc").encodeABI()
+                    },
+                ],
+            })
+                .then((txHash) => console.log(txHash))
+                .catch((error) => console.error);
+        });
+
+
+
+
+
+    </script>
+</body>
+
+</html>

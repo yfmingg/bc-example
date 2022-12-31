@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+permalink: test-wallet
+
+    <!-- 会导出一个全局的变量: ethers -->
+    <script src="https://cdn.ethers.io/scripts/ethers-v4.min.js"
+            charset="utf-8"
+            type="text/javascript">
+    </script>
+
+</head>
+<body>
+    <script>
+        const provider = ethers.getDefaultProvider("goerli");
+
+        provider.getNetwork().then(network => {
+            console.log("network: ", network);
+        });
+
+        let privateKey = 'xx';
+        let wallet = new ethers.Wallet(privateKey, provider);
+        console.log("wallet: ", wallet);
+
+        wallet.getBalance().then(balance => {
+            console.log("wallet balance: ", ethers.utils.formatEther(balance));
+        });
+
+        let transaction = {
+            to: "xx",
+            value: ethers.utils.parseEther("1.0")
+        };
+
+        // Send the transaction
+        wallet.sendTransaction(transaction).then((tx) => {
+            console.log(tx);
+        });
+    </script>
+</body>
+</html>

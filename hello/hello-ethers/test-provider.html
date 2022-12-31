@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+permalink: test-provider
+
+    <!-- 会导出一个全局的变量: ethers -->
+    <script src="https://cdn.ethers.io/scripts/ethers-v4.min.js"
+            charset="utf-8"
+            type="text/javascript">
+    </script>
+
+</head>
+<body>
+    <script>
+        // 可以使用任何标准网络名称做参数：
+        //  - "homestead"
+        //  - "rinkeby"
+        //  - "ropsten"
+        //  - "kovan"
+        //  - "goerli"
+        const provider = ethers.getDefaultProvider();
+
+        provider.getNetwork().then(network => {
+            console.log("network: ", network);
+        });
+
+        // let address = "0x02F024e0882B310c6734703AB9066EdD3a10C6e0";
+        // provider.getBalance(address).then((balance) => {
+
+        //     // 余额是 BigNumber (in wei); 格式化为 ether 字符串
+        //     let etherString = ethers.utils.formatEther(balance);
+
+        //     console.log("Balance: " + etherString);
+        // });
+
+        // provider.getTransactionCount(address).then((transactionCount) => {
+        //     console.log("发送交易总数: " + transactionCount);
+        // });
+
+        // provider.getBlockNumber().then((blockNumber) => {
+        //     console.log("Current block number: " + blockNumber);
+        // });
+
+        // provider.getGasPrice().then((gasPrice) => {
+        //     // gasPrice is a BigNumber; convert it to a decimal string
+        //     gasPriceString = gasPrice.toString();
+
+        //     console.log("Current gas price: " + gasPriceString);
+        // });
+
+        // 区块号
+        provider.getBlock(16296475).then((block) => {
+            console.log("16296475区块：", block);
+        });
+
+        // 区块 Hash
+        // let blockHash = "0xc3fd9d50cc6369a347ffda7485d641e686ace3d136da9bbabe6e1bb9f5bce59d";
+        // provider.getBlock(blockHash).then((block) => {
+        //     console.log("16294720区块：", block);
+        // });
+
+        let transactionHash = "0xc993f18346b5ae66bb83f4237328988259f317ddda2a221d08a185e145069922"
+
+        provider.getTransaction(transactionHash).then((transaction) => {
+            console.log("getTransaction: ", transaction);
+        });
+
+        // provider.getTransactionReceipt(transactionHash).then((receipt) => {
+        //     console.log("getTransactionReceipt: ", receipt);
+        // });
+
+        // let address = "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"; // uni swap token addr
+
+        // // First 4 bytes of the hash of "fee()" for the sighash selector
+        // let data = ethers.utils.hexDataSlice(ethers.utils.id('name()'), 0, 4);
+
+        // let transaction = {
+        //     to: address,
+        //     data: data
+        // }
+
+        // let callPromise = provider.call(transaction);
+
+        // callPromise.then((result) => {
+        //     console.log(result);
+        //     console.log(ethers.utils.toUtf8String(result));
+        // });
+        // provider.on('block', (blockNumber) => {
+        //     console.log('New Block: ' + blockNumber);
+        // });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test-eth</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+
+<body>
+    <script>
+        console.log("utils: ", Web3.utils);
+        console.log("version: ", Web3.version);
+        console.log("modules: ", Web3.modules);
+        console.log("---------------");
+
+        var web3 = new Web3("https://mainnet.infura.io/v3/f64965773f4b49b8ac481b7dcdb9c851");
+        // var web3 = new Web3("https://goerli.infura.io/v3/f64965773f4b49b8ac481b7dcdb9c851");
+        // var web3 = new Web3("https://eth-mainnet.g.alchemy.com/v2/j2O_DBJcuONCj6y8jbKxGR2inJiVdGjs");
+        console.log("web3: ", web3);
+        console.log("givenProvider: ", web3.givenProvider);
+        console.log("providers: ", web3.providers);
+        console.log("currentProvider: ", web3.currentProvider);
+        console.log("---------------");
+
+        web3.eth.getProtocolVersion().then(value => {
+            console.log(value);
+        });
+        // web3.eth.getBlockNumber().then(console.log);
+        // web3.eth.getBalance("0xf573d99385C05c23B24ed33De616ad16a43a0919").then(console.log);
+
+        // web3.eth.getBlock(16296475, true).then(console.log)
+
+        // web3.eth.getTransactionReceipt("0xc6cb382021dadd63e4b52e3f69948a6028a8ece9871e990f70d91599821f1b83", function(err, result){
+        //     console.log(result);
+        // });
+
+        // web3.eth.accounts.signTransaction({
+        //     to: '0x37e3464267D9FFDfcbaB0164cE3150C83E91dc51',
+        //     value: web3.utils.toWei('1', 'ether'),
+        //     gas: 2000000
+        // }, 'private key', function (err, result) {
+        //     console.log(result);
+        //     console.log(result.rawTransaction);
+        //     web3.eth.sendSignedTransaction(result.rawTransaction, function(err, result){
+        //         console.error(err);
+        //         console.log(result)
+
+        //     });
+        // });
+
+    </script>
+</body>
+
+</html>

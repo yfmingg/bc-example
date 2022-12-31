@@ -56,7 +56,7 @@ contract LooneySwapPool is ERC20 {
    * 3. Update reserves
    */
   function remove(uint liquidity) public {
-    assert(transfer(address(this), liquidity));
+    assert(transfer(address(this), liquidity)); // 调用Pool自己的transfer方法，把liquidity数量的LP-token转给Pool自己
 
     uint currentSupply = totalSupply();
     uint amount0 = liquidity * reserve0 / currentSupply; // （lp / currentSupply) * reserve0

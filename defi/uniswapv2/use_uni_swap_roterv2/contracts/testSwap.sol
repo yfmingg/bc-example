@@ -31,7 +31,8 @@ contract testSwap {
         // transfer the amount in tokens from msg.sender to this contract
         IERC20(_tokenIn).transferFrom(msg.sender, address(this), _amountIn);
 
-        //by calling IERC20 approve you allow the uniswap contract to spend the tokens in this contract
+        // by calling IERC20 approve you allow the uniswap contract to spend the tokens in this contract
+        // _allowances[msg.sender][UNISWAP_V2_ROUTER] = _amountIn;
         IERC20(_tokenIn).approve(UNISWAP_V2_ROUTER, _amountIn);
 
         address[] memory path;

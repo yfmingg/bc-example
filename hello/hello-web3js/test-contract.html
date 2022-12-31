@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test-contract</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+
+<body>
+    <script>
+        console.log("utils: ", Web3.utils);
+        console.log("version: ", Web3.version);
+        console.log("modules: ", Web3.modules);
+        console.log("---------------");
+
+        // var web3 = new Web3("https://mainnet.infura.io/v3/f64965773f4b49b8ac481b7dcdb9c851");
+        var web3 = new Web3("https://goerli.infura.io/v3/f64965773f4b49b8ac481b7dcdb9c851");
+        // var web3 = new Web3("https://eth-mainnet.g.alchemy.com/v2/j2O_DBJcuONCj6y8jbKxGR2inJiVdGjs");
+
+        console.log("web3: ", web3);
+        console.log("givenProvider: ", web3.givenProvider);
+        console.log("providers: ", web3.providers);
+        console.log("currentProvider: ", web3.currentProvider);
+        console.log("---------------");
+
+
+        // The Contract interface
+        let abi = [
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "getValue",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "value",
+                        "type": "string"
+                    }
+                ],
+                "name": "setValue",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "name": "value",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "name": "author",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "name": "oldValue",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "name": "newValue",
+                        "type": "string"
+                    }
+                ],
+                "name": "ValueChanged",
+                "type": "event"
+            }
+        ];
+
+        // https://goerli.etherscan.io/tx/0x4087e73a030628da38ee74e52f11de14a36f45a7e0d154e0990d471cdb09ae9e
+        let contractAddress = "0xea99dd9873ea70c10e31fab111450a6d7e866a33";
+        var myContract = new web3.eth.Contract(abi, contractAddress);
+
+        myContract.methods.getValue().call().then(result => {
+            console.log(result)
+        });
+
+        // myContract.methods.getValue().estimateGas().then(result => {
+        //     console.log(result)
+        // });
+
+    </script>
+</body>
+
+</html>
