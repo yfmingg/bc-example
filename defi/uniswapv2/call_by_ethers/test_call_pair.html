@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 会导出一个全局的变量: ethers -->
+    <script src="https://cdn.ethers.io/scripts/ethers-v4.min.js" charset="utf-8" type="text/javascript">
+    </script>
+
+    <script src="./abi-pair.js"></script>
+</head>
+
+<body>
+    <script>
+        
+        (async () => {
+            console.log("pairAbi", pairAbi);
+
+            let accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            console.log("accounts: ", accounts);
+
+            // 将自动检测网络;
+            // 如果在MetaMask中更改了网络，则会导致页面刷新。
+            let provider = new ethers.providers.Web3Provider(web3.currentProvider);
+            console.log("provider: ", provider);
+            let walletWithProvider = provider.getSigner();
+            console.log("walletWithProvider: ", walletWithProvider);
+
+            // let usdcTokenAddr = '0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C';
+            // let compTokenAddr = '0x3587b2F7E0E2D6166d6C14230e7Fe160252B0ba4';
+            let compUsdcPairAddr = '0x2BD3883333f68c28041092D971D414f427F63e71'; // comp-usdc
+            let contract = new ethers.Contract(compUsdcPairAddr, pairAbi, walletWithProvider);
+            console.log("contract: ", contract);
+
+            let MINIMUM_LIQUIDITY = await contract.MINIMUM_LIQUIDITY();
+            console.log("MINIMUM_LIQUIDITY: ", MINIMUM_LIQUIDITY.toString());
+
+            let symbol = await contract.symbol();
+            console.log("symbol: ", symbol);
+
+            let token0 = await contract.token0();
+            console.log("token0: ", token0);
+
+            let {reserve0, reserve1, blockTimestampLast} = await contract.getReserves();
+            console.log("reserve0: ", reserve0.toString(), "reserve1: ", reserve1.toString(), "blockTimestampLast: ", blockTimestampLast)
+            
+            let liq = await contract.mint(accounts[0]);
+            console.log(liq)
+        })();
+
+
+
+    </script>
+</body>
+
+</html>

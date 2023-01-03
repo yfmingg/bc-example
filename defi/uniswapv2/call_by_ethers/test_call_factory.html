@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 会导出一个全局的变量: ethers -->
+    <script src="https://cdn.ethers.io/scripts/ethers-v4.min.js" charset="utf-8" type="text/javascript">
+    </script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        // https://docs.uniswap.org/contracts/v2/reference/smart-contracts/factory
+        // 可以使用任何标准网络名称做参数：
+        //  - "homestead"
+        //  - "rinkeby"
+        //  - "ropsten"
+        //  - "kovan"
+        //  - "goerli"
+
+        (async function () {
+
+            let accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            console.log("accounts: ", accounts);
+
+            // 将自动检测网络;
+            // 如果在MetaMask中更改了网络，则会导致页面刷新。
+            let provider = new ethers.providers.Web3Provider(web3.currentProvider);
+            console.log("provider: ", provider);
+
+            let abi = [
+                "event PairCreated(address indexed token0, address indexed token1, address pair, uint)",
+
+                "function getPair(address tokenA, address tokenB) external view returns (address pair)",
+                "function allPairs(uint) external view returns (address pair)",
+                "function allPairsLength() external view returns (uint)",
+
+                "function feeTo() external view returns (address)",
+                "function feeToSetter() external view returns (address)",
+
+                "function createPair(address tokenA, address tokenB) external returns (address pair)"
+            ]
+            let v2FactoryAddr = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f"
+
+            let walletWithProvider = provider.getSigner();
+            let contract = new ethers.Contract(v2FactoryAddr, abi, walletWithProvider);
+            console.log("contract: ", contract);
+
+            let allPairsLength = await contract.allPairsLength();
+            console.log("allPairsLength: ", allPairsLength.toString());
+
+            // let allPairs = await contract.allPairs(allPairsLength - 1);
+            // console.log("allPairs: ", allPairs);
+
+
+            let usdcTokenAddr = '0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C';
+            let compTokenAddr = '0x3587b2F7E0E2D6166d6C14230e7Fe160252B0ba4';
+
+            // let pairAddr = await contract.createPair(usdcTokenAddr, compTokenAddr);
+            // console.log("pairAddr: ", pairAddr); 0x2BD3883333f68c28041092D971D414f427F63e71
+
+            let getPair = await contract.getPair(usdcTokenAddr, compTokenAddr);
+            console.log("getPair: ", getPair); // 0x2BD3883333f68c28041092D971D414f427F63e71
+
+            let allPairsLengthAfter = await contract.allPairsLength();
+            console.log("allPairsLengthAfter: ", allPairsLengthAfter.toString());
+
+        })();
+
+
+
+    </script>
+</body>
+
+</html>

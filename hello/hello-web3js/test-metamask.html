@@ -93,6 +93,7 @@
             getAccount();
         });
 
+        // 通过端口监听启动时，matemask才会自动注入ethereum对象
         async function getAccount() {
             accounts = await ethereum.request({ method: 'eth_requestAccounts' });
         }

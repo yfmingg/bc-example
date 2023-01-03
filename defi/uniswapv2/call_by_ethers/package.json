@@ -1,5 +1,5 @@
 {
-  "name": "hello-ethers",
+  "name": "call_by_ethers",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,10 +9,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "ethers": "^5.7.2"
-  },
   "dependencies": {
+    "ethers": "^5.7.2",
     "lite-server": "^2.6.1"
   }
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+permalink: test-provider
+
+    <!-- 会导出一个全局的变量: ethers -->
+    <script src="https://cdn.ethers.io/scripts/ethers-v4.min.js"
+            charset="utf-8"
+            type="text/javascript">
+    </script>
+
+</head>
+<body>
+    <script>
+        // 可以使用任何标准网络名称做参数：
+        //  - "homestead"
+        //  - "rinkeby"
+        //  - "ropsten"
+        //  - "kovan"
+        //  - "goerli"
+        const provider = ethers.getDefaultProvider();
+
+        provider.getNetwork().then(network => {
+            console.log("network: ", network);
+        });
+
+
+        
+
+    </script>
+</body>
+</html>
