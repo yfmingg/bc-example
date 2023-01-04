@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.4.24;
 
+// goerli: 0xea99dd9873ea70c10e31fab111450a6d7e866a33
 contract SimpleStorage {
 
     event ValueChanged(address indexed author, string oldValue, string newValue);

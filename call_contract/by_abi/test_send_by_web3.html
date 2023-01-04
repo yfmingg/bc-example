@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test-contract</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+
+<body>
+
+    <script>
+
+        (async () => {
+            let accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            var web3 = new Web3(Web3.givenProvider);
+            console.log("web3: ", web3);
+
+            console.log("web3.utils.numberToHex(number): ", web3.utils.numberToHex(69))
+            console.log("web3.utils.sha3(string | BN | Buffer): ", web3.utils.sha3("baz(uint32,bool)"))
+            console.log("web3.utils.keccak256(string | BN | Buffer): ", web3.utils.keccak256("baz(uint32,bool)"))
+            console.log("web3.utils.sha3Raw(string): ", web3.utils.sha3Raw("baz(uint32,bool)"))
+            console.log("web3.utils.soliditySha3(param1 [, param2, ...]): ", web3.utils.soliditySha3("baz(uint32,bool)"))
+            console.log("web3.utils.soliditySha3Raw(string | BN | Buffer): ", web3.utils.soliditySha3Raw("baz(uint32,bool)"))
+
+
+            let transaction = {
+                to: "0xbc67B624157DC325957b8BAADeFbF1EdFEC8c821",
+                // baz(uint32,bool),69,true
+                data: "0xcdcd77c000000000000000000000000000000000000000000000000000000000000000450000000000000000000000000000000000000000000000000000000000000001"
+            };
+
+            web3.eth.call(transaction, function (err, transactionHash) {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log(transactionHash)
+                }
+
+            });
+
+        })();
+
+
+
+
+
+    </script>
+</body>
+
+</html>

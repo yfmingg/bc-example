@@ -1,5 +1,5 @@
 {
-  "name": "wallet-demo",
+  "name": "openzeppelin-contracts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bip39": "^3.0.4"
+    "@openzeppelin/contracts": "^4.8.0"
   }
 }

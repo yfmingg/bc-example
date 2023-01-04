@@ -18,39 +18,35 @@
     <script>
 
         (async () => {
-            console.log("abiRouterv2", abiRouterv2);
-
             let accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-            console.log("accounts: ", accounts);
 
             // 将自动检测网络;
             // 如果在MetaMask中更改了网络，则会导致页面刷新。
             let provider = new ethers.providers.Web3Provider(web3.currentProvider);
-            console.log("provider: ", provider);
             let walletWithProvider = provider.getSigner();
-            console.log("walletWithProvider: ", walletWithProvider);
+            console.log("ethers: ", ethers);
 
-            // wethTokenAddr = "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6"
-            let usdcTokenAddr = '0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C';
+            let wethTokenAddr = "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6"
+            // let usdcTokenAddr = '0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C'; // not code in goerli
             // let compTokenAddr = '0x3587b2F7E0E2D6166d6C14230e7Fe160252B0ba4';
             // let compUsdcPairAddr = '0x2BD3883333f68c28041092D971D414f427F63e71'; // comp-usdc
             let routerv2 = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
             let contract = new ethers.Contract(routerv2, abiRouterv2, walletWithProvider);
-            console.log("contract: ", contract);
+            console.log("routerv2Contract: ", contract);
 
             let factory = await contract.factory();
             console.log("factory: ", factory.toString());
 
-            let path = ["0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C", "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6"]
+            // let path = ["0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C", "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6"]
 
-            let usdcUnit = ethers.utils.parseUnits("1", 6);
-            let wethUnit = ethers.utils.parseUnits("1", 18);
+            // let usdcUnit = ethers.utils.parseUnits("1", 6);
+            // let wethUnit = ethers.utils.parseUnits("1", 18);
 
             // let amountOut = await contract.getAmountsOut(ethers.utils.parseUnits("1", 6), path);
             // console.log("amountOut: ", amountOut.toString());
 
-            let amountIn = await contract.getAmountsIn(ethers.utils.parseUnits("0.1", 18), path);
-            console.log("amountIn: ", amountIn.toString());
+            // let amountIn = await contract.getAmountsIn(ethers.utils.parseUnits("0.1", 18), path);
+            // console.log("amountIn: ", amountIn.toString());
 
             // All overrides are optional
             // let overrides = {
@@ -60,15 +56,20 @@
 
             // };
 
-            let a = ethers.utils.bigNumberify(900);
-            let b = ethers.utils.bigNumberify(1000);
-            let c = a.div(b);
+            // let a = ethers.utils.bigNumberify(900);
+            // let b = ethers.utils.bigNumberify(1000);
+            // let c = a.div(b);
             
             
-            // let usdcTokenContract = await new ethers.Contract(usdcTokenAddr, abiErc20, walletWithProvider);
-            // console.log("usdcTokenContract: ", usdcTokenContract);
-            // let succ = await usdcTokenContract.approve(routerv2, amountIn[0]);
-            // console.log("succ: ", succ);
+            let wethTokenContract = await new ethers.Contract(wethTokenAddr, abiErc20, walletWithProvider);
+            console.log("wethTokenContract: ", wethTokenContract);
+
+            let succ = await wethTokenContract.approve("0x8D2F7774f5dcbDDf437173028CF97E7033B49483", 99);
+            console.log("succ: ", succ);
+
+            wethTokenContract.allowance(accounts[0], "0x8D2F7774f5dcbDDf437173028CF97E7033B49483").then((v) => {
+                console.log(v.toString());
+            });
 
             // let out = await contract.swapExactTokensForTokens(amountOut[0], amountOut[1], path, accounts[0], new Date().getTime() + 1000 * 60 * 60);
             // console.log("out: ", out);

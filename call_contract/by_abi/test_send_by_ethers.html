@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 会导出一个全局的变量: ethers -->
+    <script src="https://cdn.ethers.io/scripts/ethers-v4.min.js" charset="utf-8" type="text/javascript">
+    </script>
+
+    <script src="./fooAbi.js"></script>
+</head>
+
+<body>
+    <script>
+
+        (async () => {
+            let accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            console.log("accounts: ", accounts);
+
+            // 将自动检测网络;
+            // 如果在MetaMask中更改了网络，则会导致页面刷新。
+            let provider = new ethers.providers.Web3Provider(web3.currentProvider);
+            let walletWithProvider = provider.getSigner();
+            console.log("ethers: ", ethers);
+
+            console.log("ethers.utils.hexlify ( numberOrBigNumberOrHexStringOrArrayish ) : ", ethers.utils.hexlify (69));
+            console.log("ethers.utils.keccak256 ( hexStringOrArrayish ): ", ethers.utils.keccak256(ethers.utils.hashMessage("baz(uint32,bool)")));
+            console.log("ethers.utils.sha256 ( hexStringOrArrayish ) : ", ethers.utils.sha256(ethers.utils.hashMessage("baz(uint32,bool)")))
+            console.log("ethers.utils.solidityKeccak256: ", ethers.utils.solidityKeccak256(["string"], ["baz(uint32,bool)"])) // 方法选择器
+            console.log("ethers.utils.soliditySha256: ", ethers.utils.soliditySha256(["string"], ["baz(uint32,bool)"]))
+            console.log("ethers.utils.solidityPack: ", ethers.utils.solidityPack(["string"], ["baz(uint32,bool)"]))
+
+            console.log("ethers.utils.solidityKeccak256: ", ethers.utils.solidityKeccak256(["string"], ["Transfer(address,address,uint256)"])) // 方法选择器
+
+            let transaction = {
+                to: "0xbc67B624157DC325957b8BAADeFbF1EdFEC8c821",
+                // baz(uint32,bool),69,true
+                data: "0xcdcd77c000000000000000000000000000000000000000000000000000000000000000450000000000000000000000000000000000000000000000000000000000000001"
+            };
+
+            // Send the transaction
+            // walletWithProvider.sendTransaction(transaction).then((tx) => {
+            //     console.log(tx);
+            // });
+            provider.call(transaction).then((tx) => {
+                console.log(tx);
+            });
+
+        })();
+
+
+
+    </script>
+</body>
+
+</html>
